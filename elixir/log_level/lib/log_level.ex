@@ -1,0 +1,28 @@
+defmodule LogLevel do
+  @labels %{
+    0 => :trace,
+    1 => :debug,
+    2 => :info,
+    3 => :warning,
+    4 => :error,
+    5 => :fatal
+  }
+  @legacy_support 1..4
+  def to_label(level, legacy?) do
+    cond do
+      level === 0 and not legacy? -> :trace
+      level in @legacy_support -> @labels[level]
+      level === 5 and not legacy? -> :fatal
+      true -> :unknown
+    end
+  end
+  def alert_recipient(level, legacy?) do
+    label = to_label(level, legacy?)
+    cond do
+      label == :error or label == :fatal -> :ops
+      label == :unknown and legacy? -> :dev1
+      label == :unknown and not legacy? -> :dev2
+      true -> false
+    end
+  end
+end
