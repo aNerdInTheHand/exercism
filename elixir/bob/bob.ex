@@ -1,7 +1,7 @@
 defmodule Bob do
-  def is_shouting?(input), do: String.upcase(input) == input && String.downcase(input) != input
-  def is_question?(input), do: String.ends_with?(input, "?")
-  def is_silent?(input), do: input == ""
+  defp is_shouting?(input), do: String.upcase(input) == input && String.downcase(input) != input
+  defp is_question?(input), do: String.ends_with?(input, "?")
+  defp is_silent?(input), do: input == ""
 
   @spec hey(String.t()) :: String.t()
   def hey(input) do
